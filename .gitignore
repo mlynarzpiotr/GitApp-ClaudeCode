@@ -1,0 +1,28 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE / Edytory
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node.js
+node_modules/
+npm-debug.log*
+
+# Zmienne srodowiskowe
+.env
+.env.local
+.env.*.local
+
+# Logi
+*.log
+
+# Build
+dist/
+build/
