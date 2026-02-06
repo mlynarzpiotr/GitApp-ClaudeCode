@@ -473,6 +473,94 @@
             text-align: right;
         }
 
+        /* ===== FEATURE CARDS ===== */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 16px;
+            margin: 20px 0;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            transition: border-color 0.3s, transform 0.2s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .feature-card-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .feature-card h4 {
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .feature-card .tag {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            margin-top: 12px;
+        }
+
+        .tag.free { background: rgba(63, 185, 80, 0.15); color: var(--green); }
+        .tag.core { background: rgba(88, 166, 255, 0.15); color: var(--accent); }
+        .tag.collab { background: rgba(188, 140, 255, 0.15); color: var(--purple); }
+        .tag.pro { background: rgba(210, 153, 34, 0.15); color: var(--orange); }
+
+        .feature-detail {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .feature-detail h4 {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .feature-detail ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .feature-detail ul li {
+            color: var(--text-muted);
+            padding: 6px 0;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(48, 54, 61, 0.5);
+        }
+
+        .feature-detail ul li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-detail ul li::before {
+            content: "→ ";
+            color: var(--accent);
+            font-weight: 600;
+        }
+
         /* ===== FOOTER ===== */
         .footer {
             text-align: center;
@@ -486,6 +574,7 @@
         @media (max-width: 600px) {
             .hero h1 { font-size: 2rem; }
             .cheat-grid { grid-template-columns: 1fr; }
+            .feature-grid { grid-template-columns: 1fr; }
             .flow { flex-direction: column; }
             .flow-arrow { transform: rotate(90deg); }
         }
@@ -511,6 +600,7 @@
         <a href="#github">GitHub</a>
         <a href="#wspolpraca">Wspolpraca</a>
         <a href="#problemy">Problemy</a>
+        <a href="#funkcje-github">Funkcje GitHub</a>
         <a href="#sciagawka">Sciagawka</a>
     </div>
 </nav>
@@ -1165,10 +1255,130 @@ dist/
         </div>
     </section>
 
-    <!-- ======= SEKCJA 9: SCIAGAWKA ======= -->
-    <section class="section" id="sciagawka">
+    <!-- ======= SEKCJA 9: FUNKCJE GITHUB ======= -->
+    <section class="section" id="funkcje-github">
         <div class="section-header">
             <div class="section-number">9</div>
+            <h2>Funkcje i cechy GitHuba</h2>
+        </div>
+
+        <p>GitHub to znacznie wiecej niz tylko miejsce na kod. Oto najwazniejsze funkcje, ktore powinienes znac:</p>
+
+        <!-- FEATURE CARDS GRID -->
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-card-icon">&#128193;</div>
+                <h4>Repozytoria (Repos)</h4>
+                <p>Centralne miejsce Twojego projektu. Kazde repo zawiera kod, historie zmian, dokumentacje i ustawienia. Moze byc <strong>publiczne</strong> (widoczne dla wszystkich) lub <strong>prywatne</strong> (tylko dla Ciebie i zaproszonych osob).</p>
+                <span class="tag core">Podstawa</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#9888;&#65039;</div>
+                <h4>Issues (Zgloszenia)</h4>
+                <p>System zarzadzania zadaniami wbudowany w GitHub. Mozesz zglaszac bledy, proponowac nowe funkcje, prowadzic dyskusje. Kazdy issue ma numer, etykiety (labels) i moze byc przypisany do osoby.</p>
+                <span class="tag collab">Wspolpraca</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#128256;</div>
+                <h4>Pull Requesty (PR)</h4>
+                <p>Serce wspolpracy. Proponujesz zmiany, inni je przegladaja (code review), komentuja i zatwierdzaja. PR laczy sie z branchem i moze byc automatycznie testowany przed merge.</p>
+                <span class="tag collab">Wspolpraca</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#9889;</div>
+                <h4>GitHub Actions (CI/CD)</h4>
+                <p>Automatyzacja zadan. Mozesz ustawic aby po kazdym pushu automatycznie uruchamialy sie testy, budowal sie projekt, a nawet wdrazal na serwer. Konfigurujesz to plikami YAML w folderze <code>.github/workflows/</code>.</p>
+                <span class="tag pro">Zaawansowane</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#127760;</div>
+                <h4>GitHub Pages</h4>
+                <p>Darmowy hosting stron internetowych prosto z repozytorium. Idealne dla portfolio, dokumentacji lub prostych stron. Twoja strona bedzie dostepna pod adresem <code>uzytkownik.github.io/repo</code>.</p>
+                <span class="tag free">Darmowe</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#128101;</div>
+                <h4>Organizacje i zespoly</h4>
+                <p>Grupuj repozytoria i ludzi w organizacje. Przydzielaj role i uprawnienia, zarzadzaj zespolami. Idealne dla firm i projektow open-source z wieloma uczestnikami.</p>
+                <span class="tag collab">Wspolpraca</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#128218;</div>
+                <h4>README i dokumentacja</h4>
+                <p>Plik <code>README.md</code> to wizytowka Twojego projektu - wyswietla sie na stronie glownej repo. Pisz go w Markdown. Dodaj opis projektu, instrukcje instalacji i przyklad uzycia.</p>
+                <span class="tag core">Podstawa</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#128268;</div>
+                <h4>Forki (Rozgalezienia)</h4>
+                <p>Skopiuj cudze repozytorium na swoje konto. Mozesz eksperymentowac z kodem bez wplywu na oryginal. Gdy masz poprawke - wysylasz Pull Request do oryginalnego projektu.</p>
+                <span class="tag collab">Wspolpraca</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#11088;</div>
+                <h4>Stars i Explore</h4>
+                <p>Daj "gwiazdke" projektom, ktore Ci sie podobaja - to jak zakladka i jednoczesnie wsparcie dla autora. Zakladka Explore pomaga odkrywac popularne i nowe projekty.</p>
+                <span class="tag free">Darmowe</span>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-card-icon">&#128274;</div>
+                <h4>Bezpieczenstwo</h4>
+                <p>GitHub automatycznie skanuje Twoj kod pod katem znanych luk (Dependabot). Powiadamia Cie o podatnosciach w zaleznosciach i moze automatycznie tworzyc PR z poprawkami.</p>
+                <span class="tag pro">Zaawansowane</span>
+            </div>
+        </div>
+
+        <!-- DODATKOWE SZCZEGOLY -->
+        <h3 style="margin: 32px 0 16px; font-size: 1.2rem;">Kluczowe elementy interfejsu GitHub</h3>
+
+        <div class="feature-detail">
+            <h4>Zakladki w repozytorium</h4>
+            <ul>
+                <li><strong>Code</strong> - przegladanie plikow i katalogow projektu</li>
+                <li><strong>Issues</strong> - lista zgloszen, bledow i zadan do zrobienia</li>
+                <li><strong>Pull requests</strong> - lista oczekujacych zmian do przegladniecia</li>
+                <li><strong>Actions</strong> - automatyczne procesy (testy, budowanie, wdrazanie)</li>
+                <li><strong>Projects</strong> - tablice Kanban do zarzadzania zadaniami (jak Trello)</li>
+                <li><strong>Wiki</strong> - miejsce na rozbudowana dokumentacje projektu</li>
+                <li><strong>Settings</strong> - ustawienia repo (uprawnienia, branche, webhooki)</li>
+            </ul>
+        </div>
+
+        <div class="feature-detail">
+            <h4>Twoj profil GitHub</h4>
+            <ul>
+                <li><strong>Contribution graph</strong> - zielone kratki pokazujace Twoja aktywnosc kazdego dnia</li>
+                <li><strong>Pinned repos</strong> - przypnij najlepsze projekty na gorze profilu</li>
+                <li><strong>Profile README</strong> - stworz repo o nazwie swojego loginu i dodaj README.md - wyswietli sie na profilu</li>
+                <li><strong>Followers/Following</strong> - obserwuj innych deweloperow i ich projekty</li>
+            </ul>
+        </div>
+
+        <div class="info-box tip">
+            <div class="info-box-title">GitHub to Twoje portfolio</div>
+            <p>Rekruterzy i firmy czesto przegladaja profile GitHub kandydatow. Zadbaj o czytelne README w projektach, regularne commity i porzadna historie zmian. To najlepsza wizytowka programisty!</p>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Darmowe vs platne</div>
+            <p><strong>Darmowe konto</strong> daje Ci: nieograniczone publiczne i prywatne repozytoria, GitHub Pages, Actions (2000 minut/miesiac), Issues, Pull Requesty i Codespaces (60h/miesiac).</p>
+            <p><strong>Platne plany</strong> (Pro/Team/Enterprise) dodaja: wiecej minut Actions, zaawansowane bezpieczenstwo, wymagane code reviews, CODEOWNERS i wiecej.</p>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 10: SCIAGAWKA ======= -->
+    <section class="section" id="sciagawka">
+        <div class="section-header">
+            <div class="section-number">10</div>
             <h2>Sciagawka - wszystkie komendy</h2>
         </div>
 
