@@ -1,0 +1,1276 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git & GitHub - Przewodnik od Zera</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-card: #1c2128;
+            --border: #30363d;
+            --text: #e6edf3;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --accent-hover: #79c0ff;
+            --green: #3fb950;
+            --orange: #d29922;
+            --red: #f85149;
+            --purple: #bc8cff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 80px 20px 60px;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1a1e2e 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== NAVIGATION ===== */
+        .nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(13, 17, 23, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 20px;
+            overflow-x: auto;
+        }
+
+        .nav-inner {
+            display: flex;
+            gap: 8px;
+            max-width: 1000px;
+            margin: 0 auto;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .nav a:hover {
+            color: var(--accent);
+            background: rgba(88, 166, 255, 0.1);
+            border-color: rgba(88, 166, 255, 0.2);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .container {
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            margin-bottom: 60px;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .section-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--bg);
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .section-header h2 {
+            font-size: 1.6rem;
+            color: var(--text);
+        }
+
+        .section p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .section p strong {
+            color: var(--text);
+        }
+
+        /* ===== INFO BOXES ===== */
+        .info-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .info-box.tip {
+            border-left: 3px solid var(--green);
+        }
+
+        .info-box.warning {
+            border-left: 3px solid var(--orange);
+        }
+
+        .info-box.danger {
+            border-left: 3px solid var(--red);
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .info-box.tip .info-box-title { color: var(--green); }
+        .info-box.warning .info-box-title { color: var(--orange); }
+        .info-box.danger .info-box-title { color: var(--red); }
+
+        .info-box p {
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .info-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* ===== CODE BLOCKS ===== */
+        .code-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 16px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.03);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .code-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .copy-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-muted);
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .copy-btn.copied {
+            color: var(--green);
+            border-color: var(--green);
+        }
+
+        .code-body {
+            padding: 16px;
+            overflow-x: auto;
+        }
+
+        .code-body pre {
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text);
+        }
+
+        .code-body .comment {
+            color: var(--text-muted);
+        }
+
+        .code-body .command {
+            color: var(--green);
+        }
+
+        .code-body .flag {
+            color: var(--orange);
+        }
+
+        .code-body .string {
+            color: var(--accent);
+        }
+
+        .code-body .prompt {
+            color: var(--purple);
+            user-select: none;
+        }
+
+        /* ===== DIAGRAM ===== */
+        .diagram {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .flow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 16px 0;
+        }
+
+        .flow-box {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .flow-box.active {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .flow-arrow {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        /* ===== COMMAND TABLE ===== */
+        .cmd-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+        }
+
+        .cmd-table th {
+            text-align: left;
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .cmd-table td {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+        }
+
+        .cmd-table td:first-child {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            color: var(--green);
+            white-space: nowrap;
+            font-size: 0.85rem;
+        }
+
+        .cmd-table td:last-child {
+            color: var(--text-muted);
+        }
+
+        .cmd-table tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+
+        /* ===== ACCORDION ===== */
+        .accordion {
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+
+        .accordion-header {
+            background: var(--bg-card);
+            padding: 14px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s;
+        }
+
+        .accordion-header:hover {
+            background: rgba(255,255,255,0.04);
+        }
+
+        .accordion-header h3 {
+            font-size: 0.95rem;
+            color: var(--text);
+        }
+
+        .accordion-arrow {
+            color: var(--text-muted);
+            transition: transform 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .accordion.open .accordion-arrow {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            display: none;
+            padding: 16px 20px;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+        }
+
+        .accordion.open .accordion-body {
+            display: block;
+        }
+
+        /* ===== STEPS ===== */
+        .steps {
+            margin: 16px 0;
+        }
+
+        .step {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .step-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-content h4 {
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+        }
+
+        /* ===== CHEATSHEET ===== */
+        .cheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .cheat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .cheat-card h4 {
+            color: var(--accent);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cheat-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 0.85rem;
+            gap: 12px;
+        }
+
+        .cheat-item code {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            color: var(--green);
+            white-space: nowrap;
+        }
+
+        .cheat-item span {
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 2rem; }
+            .cheat-grid { grid-template-columns: 1fr; }
+            .flow { flex-direction: column; }
+            .flow-arrow { transform: rotate(90deg); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-icon">&#128736;</div>
+    <h1>Git & GitHub</h1>
+    <p>Kompletny przewodnik od zera. Naucz sie kontroli wersji krok po kroku - po polsku.</p>
+</div>
+
+<!-- NAVIGATION -->
+<nav class="nav">
+    <div class="nav-inner">
+        <a href="#co-to-git">Co to Git?</a>
+        <a href="#instalacja">Instalacja</a>
+        <a href="#podstawy">Podstawy</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#branche">Branche</a>
+        <a href="#github">GitHub</a>
+        <a href="#wspolpraca">Wspolpraca</a>
+        <a href="#problemy">Problemy</a>
+        <a href="#sciagawka">Sciagawka</a>
+    </div>
+</nav>
+
+<!-- MAIN -->
+<div class="container">
+
+    <!-- ======= SEKCJA 1: CO TO GIT ======= -->
+    <section class="section" id="co-to-git">
+        <div class="section-header">
+            <div class="section-number">1</div>
+            <h2>Co to jest Git?</h2>
+        </div>
+
+        <p><strong>Git</strong> to system kontroli wersji. Wyobraz sobie, ze masz przycisk "Cofnij" dla calego projektu - to wlasnie robi Git. Zapisuje kazda zmiane, ktorej dokonasz, i pozwala wrocic do dowolnego momentu w historii.</p>
+
+        <div class="info-box tip">
+            <div class="info-box-title">Analogia</div>
+            <p>Pomysl o Git jak o grze komputerowej z save'ami. Robisz "save" (commit) po kazdym waznym kroku. Jesli cos popssujesz, mozesz zaladowac poprzedni save.</p>
+        </div>
+
+        <p><strong>Dlaczego warto?</strong></p>
+        <ul style="color: var(--text-muted); margin-left: 20px; margin-bottom: 16px;">
+            <li>Nigdy nie stracisz swojej pracy</li>
+            <li>Mozesz eksperymentowac bez ryzyka</li>
+            <li>Widzisz kto, co i kiedy zmienil</li>
+            <li>Mozesz pracowac z innymi nad tym samym kodem</li>
+        </ul>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Git vs GitHub - jaka roznica?</div>
+            <p><strong>Git</strong> = narzedzie na Twoim komputerze (dziala offline)</p>
+            <p><strong>GitHub</strong> = serwis internetowy, ktory przechowuje Twoje repozytoria w chmurze i umozliwia wspolprace</p>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 2: INSTALACJA ======= -->
+    <section class="section" id="instalacja">
+        <div class="section-header">
+            <div class="section-number">2</div>
+            <h2>Instalacja i konfiguracja</h2>
+        </div>
+
+        <p>Zanim zaczniesz, musisz zainstalowac Git i ustawic swoje dane.</p>
+
+        <div class="accordion open">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>macOS</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <p style="color: var(--text-muted); margin-bottom: 12px;">Otwierasz Terminal i wpisujesz:</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="prompt">$ </span><span class="command">xcode-select</span> <span class="flag">--install</span></pre>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted);">Git jest juz wbudowany w macOS - ta komenda zainstaluje narzedzia deweloperskie razem z Git.</p>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Windows</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <p style="color: var(--text-muted);">Pobierz instalator ze strony <strong>git-scm.com</strong> i zainstaluj z domyslnymi ustawieniami. Dostaniesz Git Bash - specjalny terminal do pracy z Git.</p>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Linux</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="prompt">$ </span><span class="command">sudo apt install</span> git    <span class="comment"># Ubuntu/Debian</span>
+<span class="prompt">$ </span><span class="command">sudo dnf install</span> git    <span class="comment"># Fedora</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin: 24px 0 12px; font-size: 1.1rem;">Pierwsza konfiguracja</h3>
+        <p>Po instalacji powiedz Gitowi kim jestes (te dane beda widoczne przy kazdym uczestniku zmian):</p>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Konfiguracja - wykonaj raz</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Ustaw swoje imie i nazwisko</span>
+<span class="prompt">$ </span><span class="command">git config</span> <span class="flag">--global</span> user.name <span class="string">"Twoje Imie"</span>
+
+<span class="comment"># Ustaw swoj email (ten sam co na GitHubie)</span>
+<span class="prompt">$ </span><span class="command">git config</span> <span class="flag">--global</span> user.email <span class="string">"twoj@email.com"</span>
+
+<span class="comment"># Sprawdz czy wszystko sie zapisalo</span>
+<span class="prompt">$ </span><span class="command">git config</span> <span class="flag">--list</span></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 3: PODSTAWY ======= -->
+    <section class="section" id="podstawy">
+        <div class="section-header">
+            <div class="section-number">3</div>
+            <h2>Podstawowe komendy</h2>
+        </div>
+
+        <p>Oto komendy, ktorych bedziesz uzywac codziennie.</p>
+
+        <h3 style="margin: 20px 0 12px; font-size: 1.1rem;">Tworzenie repozytorium</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Nowy projekt</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Wejdz do folderu projektu</span>
+<span class="prompt">$ </span><span class="command">cd</span> moj-projekt
+
+<span class="comment"># Zainicjuj Git w tym folderze</span>
+<span class="prompt">$ </span><span class="command">git init</span>
+<span class="comment"># Odpowiedz: Initialized empty Git repository in .../moj-projekt/.git/</span></pre>
+            </div>
+        </div>
+
+        <div class="info-box tip">
+            <div class="info-box-title">Co robi git init?</div>
+            <p>Tworzy ukryty folder <strong>.git</strong> w Twoim projekcie. Tam Git przechowuje cala historie zmian. Nie usuwaj tego folderu!</p>
+        </div>
+
+        <h3 style="margin: 20px 0 12px; font-size: 1.1rem;">Sprawdzanie stanu</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Najczesciej uzywana komenda</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="prompt">$ </span><span class="command">git status</span>
+
+<span class="comment"># Pokaze Ci:</span>
+<span class="comment"># - na jakiej jestes galezi (branch)</span>
+<span class="comment"># - jakie pliki zostaly zmienione</span>
+<span class="comment"># - jakie pliki sa gotowe do commita</span>
+<span class="comment"># - jakie pliki sa nowe i niesledzone</span></pre>
+            </div>
+        </div>
+
+        <h3 style="margin: 20px 0 12px; font-size: 1.1rem;">Zapisywanie zmian (commit)</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Dodawanie i commitowanie</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Krok 1: Dodaj pliki do "poczekalni" (staging area)</span>
+<span class="prompt">$ </span><span class="command">git add</span> nazwa-pliku.txt      <span class="comment"># dodaj jeden plik</span>
+<span class="prompt">$ </span><span class="command">git add</span> .                     <span class="comment"># dodaj WSZYSTKIE zmienione pliki</span>
+
+<span class="comment"># Krok 2: Zapisz zmiany z opisem co zrobiles</span>
+<span class="prompt">$ </span><span class="command">git commit</span> <span class="flag">-m</span> <span class="string">"Dodano strone glowna"</span></pre>
+            </div>
+        </div>
+
+        <div class="info-box warning">
+            <div class="info-box-title">Zasada dobrych commitow</div>
+            <p>Pisz wiadomosci commitow po angielsku lub polsku, ale <strong>zawsze w trybie rozkazujacym</strong>: "Dodaj formularz logowania" zamiast "Dodalem formularz logowania". Commituj czesto - male, logiczne porcje zmian.</p>
+        </div>
+
+        <h3 style="margin: 20px 0 12px; font-size: 1.1rem;">Przegladanie historii</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Historia commitow</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Pelna historia</span>
+<span class="prompt">$ </span><span class="command">git log</span>
+
+<span class="comment"># Skrocona historia (jeden commit = jedna linia)</span>
+<span class="prompt">$ </span><span class="command">git log</span> <span class="flag">--oneline</span>
+
+<span class="comment"># Ladny graf z branchami</span>
+<span class="prompt">$ </span><span class="command">git log</span> <span class="flag">--oneline --graph --all</span></pre>
+            </div>
+        </div>
+
+        <h3 style="margin: 20px 0 12px; font-size: 1.1rem;">Sprawdzanie roznic</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Co sie zmienilo?</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Pokaz niezapisane zmiany</span>
+<span class="prompt">$ </span><span class="command">git diff</span>
+
+<span class="comment"># Pokaz zmiany gotowe do commita (w staging area)</span>
+<span class="prompt">$ </span><span class="command">git diff</span> <span class="flag">--staged</span></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 4: WORKFLOW ======= -->
+    <section class="section" id="workflow">
+        <div class="section-header">
+            <div class="section-number">4</div>
+            <h2>Jak dziala Git - workflow</h2>
+        </div>
+
+        <p>Git ma 3 glowne "miejsca" w ktorych zyja Twoje pliki:</p>
+
+        <div class="diagram">
+            <div class="flow">
+                <div class="flow-box">Working Directory<br><small style="color: var(--text-muted);">Twoje pliki</small></div>
+                <div class="flow-arrow">&#8594;</div>
+                <div class="flow-box active">Staging Area<br><small style="color: var(--text-muted);">Poczekalnia</small></div>
+                <div class="flow-arrow">&#8594;</div>
+                <div class="flow-box">Repository<br><small style="color: var(--text-muted);">Historia</small></div>
+            </div>
+            <div style="margin-top: 16px;">
+                <div class="flow">
+                    <div class="flow-box" style="border-color: var(--green); font-size: 0.8rem;">git add</div>
+                    <div style="width: 80px;"></div>
+                    <div class="flow-box" style="border-color: var(--green); font-size: 0.8rem;">git commit</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">1</div>
+                <div class="step-content">
+                    <h4>Working Directory (katalog roboczy)</h4>
+                    <p style="color: var(--text-muted);">To Twoje normalne pliki na dysku. Edytujesz je jak zwykle.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">2</div>
+                <div class="step-content">
+                    <h4>Staging Area (poczekalnia)</h4>
+                    <p style="color: var(--text-muted);">Uzywasz <code style="color: var(--green);">git add</code> zeby wybrac ktore zmiany chcesz zapisac. To jak wkladanie rzeczy do paczki przed wyslaniem.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">3</div>
+                <div class="step-content">
+                    <h4>Repository (repozytorium)</h4>
+                    <p style="color: var(--text-muted);">Uzywasz <code style="color: var(--green);">git commit</code> zeby trwale zapisac zmiany w historii. Jak wyslanie paczki - nie da sie juz jej zmienic.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 5: BRANCHE ======= -->
+    <section class="section" id="branche">
+        <div class="section-header">
+            <div class="section-number">5</div>
+            <h2>Branche (galerie)</h2>
+        </div>
+
+        <p>Branche pozwalaja pracowac nad roznymi funkcjami jednoczesnie, bez mieszania kodu. To jak rownolegle wymiary w grze - mozesz eksperymentowac w jednym, a drugi zostaje nietkniety.</p>
+
+        <div class="diagram">
+            <pre style="font-family: monospace; font-size: 0.85rem; text-align: left; display: inline-block; color: var(--text-muted);">
+main:      o---o---o---o---o
+                \       /
+feature:         o---o---o
+            </pre>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Praca z branchami</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Zobacz wszystkie branche</span>
+<span class="prompt">$ </span><span class="command">git branch</span>
+
+<span class="comment"># Stworz nowy branch</span>
+<span class="prompt">$ </span><span class="command">git branch</span> nazwa-brancha
+
+<span class="comment"># Przejdz na inny branch</span>
+<span class="prompt">$ </span><span class="command">git checkout</span> nazwa-brancha
+
+<span class="comment"># Stworz nowy branch I od razu na niego przejdz (skrot!)</span>
+<span class="prompt">$ </span><span class="command">git checkout</span> <span class="flag">-b</span> nowy-branch
+
+<span class="comment"># Polacz branch z main (merge)</span>
+<span class="prompt">$ </span><span class="command">git checkout</span> main           <span class="comment"># wroc na main</span>
+<span class="prompt">$ </span><span class="command">git merge</span> nazwa-brancha     <span class="comment"># polacz zmiany</span>
+
+<span class="comment"># Usun branch (po merge)</span>
+<span class="prompt">$ </span><span class="command">git branch</span> <span class="flag">-d</span> nazwa-brancha</pre>
+            </div>
+        </div>
+
+        <div class="info-box tip">
+            <div class="info-box-title">Konwencja nazw branchy</div>
+            <p>Uzywaj opisowych nazw: <code style="color: var(--green);">feature/login-form</code>, <code style="color: var(--green);">fix/navbar-bug</code>, <code style="color: var(--green);">docs/readme-update</code></p>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 6: GITHUB ======= -->
+    <section class="section" id="github">
+        <div class="section-header">
+            <div class="section-number">6</div>
+            <h2>GitHub - praca z chmura</h2>
+        </div>
+
+        <p>GitHub przechowuje Twoj kod w chmurze. Dzieki temu masz backup, mozesz wspolpracowac z innymi i pokazac swoje projekty swiatu.</p>
+
+        <h3 style="margin: 20px 0 12px; font-size: 1.1rem;">Pierwsze kroki z GitHub</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">1</div>
+                <div class="step-content">
+                    <h4>Zaloz konto na github.com</h4>
+                    <p style="color: var(--text-muted);">Uzyj tego samego emaila co w konfiguracji Git.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">2</div>
+                <div class="step-content">
+                    <h4>Stworz nowe repozytorium</h4>
+                    <p style="color: var(--text-muted);">Kliknij "New" na GitHub. Daj nazwe projektowi. Nie zaznaczaj "Initialize with README" jesli juz masz lokalny projekt.</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">3</div>
+                <div class="step-content">
+                    <h4>Polacz lokalny projekt z GitHub</h4>
+                    <p style="color: var(--text-muted);">Wykonaj komendy ponizej.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Polaczenie z GitHub</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Dodaj adres zdalnego repozytorium</span>
+<span class="prompt">$ </span><span class="command">git remote add</span> origin <span class="string">https://github.com/TWOJ-LOGIN/nazwa-repo.git</span>
+
+<span class="comment"># Wyslij kod na GitHub (pierwszy raz)</span>
+<span class="prompt">$ </span><span class="command">git push</span> <span class="flag">-u</span> origin main
+
+<span class="comment"># Kolejne razy wystarczy:</span>
+<span class="prompt">$ </span><span class="command">git push</span></pre>
+            </div>
+        </div>
+
+        <h3 style="margin: 24px 0 12px; font-size: 1.1rem;">Klonowanie istniejacego projektu</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Kopiowanie projektu z GitHub</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Pobierz projekt z GitHub na swoj komputer</span>
+<span class="prompt">$ </span><span class="command">git clone</span> <span class="string">https://github.com/uzytkownik/nazwa-repo.git</span>
+
+<span class="comment"># Wejdz do pobranego folderu</span>
+<span class="prompt">$ </span><span class="command">cd</span> nazwa-repo</pre>
+            </div>
+        </div>
+
+        <h3 style="margin: 24px 0 12px; font-size: 1.1rem;">Synchronizacja</h3>
+        <div class="code-block">
+            <div class="code-header">
+                <span class="code-label">Push i Pull</span>
+                <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+            </div>
+            <div class="code-body">
+                <pre><span class="comment"># Wyslij swoje zmiany na GitHub</span>
+<span class="prompt">$ </span><span class="command">git push</span>
+
+<span class="comment"># Pobierz zmiany innych z GitHub</span>
+<span class="prompt">$ </span><span class="command">git pull</span>
+
+<span class="comment"># Sprawdz co sie zmienilo na GitHub (bez pobierania)</span>
+<span class="prompt">$ </span><span class="command">git fetch</span></pre>
+            </div>
+        </div>
+
+        <div class="diagram">
+            <p style="font-weight: 600; margin-bottom: 16px;">Jak przeplywa kod</p>
+            <div class="flow">
+                <div class="flow-box">Twoj komputer<br><small style="color: var(--text-muted);">lokalne repo</small></div>
+                <div class="flow-arrow">&#8596;</div>
+                <div class="flow-box active">GitHub<br><small style="color: var(--text-muted);">zdalne repo</small></div>
+                <div class="flow-arrow">&#8596;</div>
+                <div class="flow-box">Komputer kolegi<br><small style="color: var(--text-muted);">lokalne repo</small></div>
+            </div>
+            <div class="flow" style="margin-top: 8px;">
+                <small style="color: var(--green);">push &#8594; / &#8592; pull</small>
+                <div style="width: 60px;"></div>
+                <small style="color: var(--green);">push &#8594; / &#8592; pull</small>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 7: WSPOLPRACA ======= -->
+    <section class="section" id="wspolpraca">
+        <div class="section-header">
+            <div class="section-number">7</div>
+            <h2>Pull Requesty i wspolpraca</h2>
+        </div>
+
+        <p><strong>Pull Request (PR)</strong> to prosba o dolaczenie Twoich zmian do glownego kodu. To serce wspolpracy na GitHubie.</p>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-icon">1</div>
+                <div class="step-content">
+                    <h4>Stworz branch z nowa funkcja</h4>
+                    <div class="code-block" style="margin-top: 8px;">
+                        <div class="code-header">
+                            <span class="code-label">Terminal</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                        </div>
+                        <div class="code-body">
+                            <pre><span class="prompt">$ </span><span class="command">git checkout</span> <span class="flag">-b</span> feature/nowa-funkcja</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">2</div>
+                <div class="step-content">
+                    <h4>Wprowadz zmiany i commituj</h4>
+                    <div class="code-block" style="margin-top: 8px;">
+                        <div class="code-header">
+                            <span class="code-label">Terminal</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                        </div>
+                        <div class="code-body">
+                            <pre><span class="prompt">$ </span><span class="command">git add</span> .
+<span class="prompt">$ </span><span class="command">git commit</span> <span class="flag">-m</span> <span class="string">"Dodaj nowa funkcje"</span></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">3</div>
+                <div class="step-content">
+                    <h4>Wyslij branch na GitHub</h4>
+                    <div class="code-block" style="margin-top: 8px;">
+                        <div class="code-header">
+                            <span class="code-label">Terminal</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                        </div>
+                        <div class="code-body">
+                            <pre><span class="prompt">$ </span><span class="command">git push</span> <span class="flag">-u</span> origin feature/nowa-funkcja</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">4</div>
+                <div class="step-content">
+                    <h4>Stworz Pull Request na GitHubie</h4>
+                    <p style="color: var(--text-muted);">Wejdz na GitHub &rarr; zobaczysz przycisk "Compare & pull request" &rarr; dodaj opis &rarr; kliknij "Create pull request"</p>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon">5</div>
+                <div class="step-content">
+                    <h4>Code Review i Merge</h4>
+                    <p style="color: var(--text-muted);">Inni przegladaja Twoj kod, komentuja, sugeruja zmiany. Gdy wszystko jest OK - klikasz "Merge pull request".</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-box tip">
+            <div class="info-box-title">Plik .gitignore</div>
+            <p>Stworz plik <code style="color: var(--green);">.gitignore</code> w glownym folderze projektu. Wpisz w nim nazwy plikow i folderow, ktore Git ma ignorowac:</p>
+            <div class="code-block" style="margin-top: 12px;">
+                <div class="code-header">
+                    <span class="code-label">.gitignore</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                </div>
+                <div class="code-body">
+                    <pre>node_modules/
+.env
+.DS_Store
+dist/
+*.log</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 8: PROBLEMY ======= -->
+    <section class="section" id="problemy">
+        <div class="section-header">
+            <div class="section-number">8</div>
+            <h2>Najczestsze problemy i rozwiazania</h2>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Chce cofnac ostatni commit (ale zachowac zmiany)</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="prompt">$ </span><span class="command">git reset</span> <span class="flag">--soft</span> HEAD~1</pre>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted);">Twoje pliki zostana nienaruszone, ale commit zostanie cofniety.</p>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Zmienialem pliki, ale chce wrocic do ostatniego commita</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="comment"># Cofnij zmiany w jednym pliku</span>
+<span class="prompt">$ </span><span class="command">git checkout</span> <span class="flag">--</span> nazwa-pliku.txt
+
+<span class="comment"># Cofnij WSZYSTKIE zmiany (UWAGA: stracisz niezapisane zmiany!)</span>
+<span class="prompt">$ </span><span class="command">git checkout</span> <span class="flag">--</span> .</pre>
+                    </div>
+                </div>
+                <div class="info-box danger" style="margin-top: 12px;">
+                    <div class="info-box-title">Ostrzezenie</div>
+                    <p>Ta komenda trwale usunie niezacommitowane zmiany. Upewnij sie, ze tego chcesz!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Mam konflikt przy merge - co robic?</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <p style="color: var(--text-muted); margin-bottom: 12px;">Konflikty powstaja gdy dwie osoby edytowaly ten sam fragment kodu. Git oznaczy konflikty w pliku:</p>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Plik z konfliktem</span>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="comment"><<<<<<< HEAD</span>
+<span class="string">Twoja wersja kodu</span>
+<span class="comment">=======</span>
+<span class="flag">Wersja kodu z drugiego brancha</span>
+<span class="comment">>>>>>>> nazwa-brancha</span></pre>
+                    </div>
+                </div>
+                <p style="color: var(--text-muted); margin: 12px 0;">Rozwiazanie:</p>
+                <ol style="color: var(--text-muted); margin-left: 20px;">
+                    <li>Otworz plik i wybierz ktora wersje chcesz zachowac</li>
+                    <li>Usun znaczniki (<code>&lt;&lt;&lt;&lt;</code>, <code>====</code>, <code>&gt;&gt;&gt;&gt;</code>)</li>
+                    <li>Zapisz plik</li>
+                    <li><code style="color: var(--green);">git add .</code> i <code style="color: var(--green);">git commit</code></li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Przypadkowo dodalam plik do staging area</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="comment"># Usun plik ze staging area (plik zostanie na dysku)</span>
+<span class="prompt">$ </span><span class="command">git restore</span> <span class="flag">--staged</span> nazwa-pliku.txt</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Chce zmienic wiadomosc ostatniego commita</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="prompt">$ </span><span class="command">git commit</span> <span class="flag">--amend</span> <span class="flag">-m</span> <span class="string">"Nowa wiadomosc"</span></pre>
+                    </div>
+                </div>
+                <div class="info-box warning" style="margin-top: 12px;">
+                    <div class="info-box-title">Uwaga</div>
+                    <p>Jesli juz wyslales commit na GitHub (<code>git push</code>), nie zmieniaj go! Moze to skomplikowac sprawy dla reszty zespolu.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion">
+            <div class="accordion-header" onclick="toggleAccordion(this)">
+                <h3>Chce zobaczyc co zmienil konkretny commit</h3>
+                <span class="accordion-arrow">&#9660;</span>
+            </div>
+            <div class="accordion-body">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">Terminal</span>
+                        <button class="copy-btn" onclick="copyCode(this)">Kopiuj</button>
+                    </div>
+                    <div class="code-body">
+                        <pre><span class="comment"># Pokaz zmiany z konkretnego commita</span>
+<span class="prompt">$ </span><span class="command">git show</span> abc1234
+
+<span class="comment"># (abc1234 to poczatek hash commita - znajdziesz go w git log)</span></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======= SEKCJA 9: SCIAGAWKA ======= -->
+    <section class="section" id="sciagawka">
+        <div class="section-header">
+            <div class="section-number">9</div>
+            <h2>Sciagawka - wszystkie komendy</h2>
+        </div>
+
+        <p>Wszystkie najwazniejsze komendy w jednym miejscu. Wracaj tutaj gdy potrzebujesz!</p>
+
+        <div class="cheat-grid">
+            <div class="cheat-card">
+                <h4>Konfiguracja</h4>
+                <div class="cheat-item"><code>git config --global user.name "..."</code> <span>Ustaw imie</span></div>
+                <div class="cheat-item"><code>git config --global user.email "..."</code> <span>Ustaw email</span></div>
+                <div class="cheat-item"><code>git config --list</code> <span>Pokaz config</span></div>
+            </div>
+
+            <div class="cheat-card">
+                <h4>Tworzenie projektu</h4>
+                <div class="cheat-item"><code>git init</code> <span>Nowe repo</span></div>
+                <div class="cheat-item"><code>git clone &lt;url&gt;</code> <span>Klonuj repo</span></div>
+            </div>
+
+            <div class="cheat-card">
+                <h4>Codzienne komendy</h4>
+                <div class="cheat-item"><code>git status</code> <span>Stan plikow</span></div>
+                <div class="cheat-item"><code>git add &lt;plik&gt;</code> <span>Dodaj do stage</span></div>
+                <div class="cheat-item"><code>git add .</code> <span>Dodaj wszystko</span></div>
+                <div class="cheat-item"><code>git commit -m "..."</code> <span>Zapisz zmiany</span></div>
+                <div class="cheat-item"><code>git diff</code> <span>Pokaz roznice</span></div>
+                <div class="cheat-item"><code>git log --oneline</code> <span>Historia</span></div>
+            </div>
+
+            <div class="cheat-card">
+                <h4>Branche</h4>
+                <div class="cheat-item"><code>git branch</code> <span>Lista branchy</span></div>
+                <div class="cheat-item"><code>git checkout -b &lt;nazwa&gt;</code> <span>Nowy branch</span></div>
+                <div class="cheat-item"><code>git checkout &lt;nazwa&gt;</code> <span>Zmien branch</span></div>
+                <div class="cheat-item"><code>git merge &lt;nazwa&gt;</code> <span>Polacz branche</span></div>
+                <div class="cheat-item"><code>git branch -d &lt;nazwa&gt;</code> <span>Usun branch</span></div>
+            </div>
+
+            <div class="cheat-card">
+                <h4>GitHub (zdalne repo)</h4>
+                <div class="cheat-item"><code>git remote add origin &lt;url&gt;</code> <span>Dodaj remote</span></div>
+                <div class="cheat-item"><code>git push</code> <span>Wyslij zmiany</span></div>
+                <div class="cheat-item"><code>git pull</code> <span>Pobierz zmiany</span></div>
+                <div class="cheat-item"><code>git fetch</code> <span>Sprawdz zmiany</span></div>
+                <div class="cheat-item"><code>git push -u origin &lt;branch&gt;</code> <span>Push nowy branch</span></div>
+            </div>
+
+            <div class="cheat-card">
+                <h4>Cofanie zmian</h4>
+                <div class="cheat-item"><code>git restore --staged &lt;plik&gt;</code> <span>Cofnij z stage</span></div>
+                <div class="cheat-item"><code>git checkout -- &lt;plik&gt;</code> <span>Cofnij edycje</span></div>
+                <div class="cheat-item"><code>git reset --soft HEAD~1</code> <span>Cofnij commit</span></div>
+                <div class="cheat-item"><code>git commit --amend -m "..."</code> <span>Zmien wiadomosc</span></div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <p>Stworzono z pomoca Claude Code | 2026</p>
+    <p style="margin-top: 8px;">Najlepsza metoda nauki? Stworz nowy projekt i zacznij uzywac Git od dzis!</p>
+</div>
+
+<script>
+    // Toggle accordion
+    function toggleAccordion(header) {
+        const accordion = header.parentElement;
+        accordion.classList.toggle('open');
+    }
+
+    // Copy code to clipboard
+    function copyCode(btn) {
+        const codeBlock = btn.closest('.code-block');
+        const pre = codeBlock.querySelector('pre');
+
+        // Get text content but remove the "$ " prompts
+        let text = pre.textContent;
+        text = text.replace(/^\$ /gm, '');
+
+        navigator.clipboard.writeText(text).then(() => {
+            btn.textContent = 'Skopiowano!';
+            btn.classList.add('copied');
+            setTimeout(() => {
+                btn.textContent = 'Kopiuj';
+                btn.classList.remove('copied');
+            }, 2000);
+        });
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
